@@ -4,6 +4,11 @@ body{
   font-family: 'Poppins', sans-serif;
 }
 
+a{
+  color:#282c34 !important;
+  text-decoration: none !important;
+}
+
 .App {
   text-align: center;
 }
