@@ -52,8 +52,8 @@ const SearchCard = () => {
         "x-rapidapi-host": process.env.REACT_APP_X_RAPIDAPI_HOST
       }});
          let places = data.data.data.body;
-      console.log(data);
-      dispatch({type: 'UPDATE_PLACES', payload: places});
+      console.log(places);
+      dispatch({type: 'CHANGE_PLACES', payload: places});
     } catch (error) {
       console.error(error);
     }

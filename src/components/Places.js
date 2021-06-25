@@ -13,7 +13,7 @@ console.log(places);
   let formatedCheckOut = new Intl.DateTimeFormat('en-US', options).format(checkOut);
   return (
     <>
-      {places && places.length > 0 && 
+      {places && 
         <Container className="my-2">
           <p>{formatedCheckIn} - {formatedCheckOut} · {adults + children} {(adults + children > 1) ? "guests" : "guest"}</p>
           <h1>Stays in {places.header}</h1>

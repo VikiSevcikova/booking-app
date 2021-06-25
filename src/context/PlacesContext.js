@@ -6,7 +6,7 @@ const today = new Date();
 const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
 
 const initialState = {
-  places: [],
+  places: null,
   checkIn: today,
   checkOut: tomorrow,
   adults: 1,

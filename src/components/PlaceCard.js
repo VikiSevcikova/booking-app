@@ -3,6 +3,7 @@ import { Card, Row, Col, Image } from "react-bootstrap";
 import { BsFillStarFill } from "react-icons/bs";
 
 const PlaceCard = ({ place }) => {
+  console.log(place);
   return (
     // <a>
       <Card className="border-top-0 border-left-0 border-right-0">
@@ -27,11 +28,11 @@ const PlaceCard = ({ place }) => {
               <Row className="align-items-end">
                 <Col className="justify-content-end">
                   <BsFillStarFill />
-                  <strong> {place.questReviews.rating} </strong> (
-                  {place.questReviews.total})
+                  <strong> {place.guestReviews.rating} </strong> (
+                  {place.guestReviews.total})
                 </Col>
                 <Col className="float-right text-right">
-                  <strong>{place.ratePlan.price.current} CAD</strong>
+                  <strong>{place.ratePlan.price.current}</strong>
                   <br />
                   {place.ratePlan.price.info}
                 </Col>
