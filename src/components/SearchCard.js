@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 const SearchCard = () => {
   const placesContext = useContext(PlacesContext);
   const { state, dispatch } = placesContext;
-  const { checkIn, checkOut, adults, children } = state;
+  const { loading, checkIn, checkOut, adults, children } = state;
 
   const today = new Date();
   const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
@@ -37,6 +37,7 @@ const SearchCard = () => {
     let formatedCheckOut = checkOut.toISOString().slice(0, 10);
     const locationUrl = `https://hotels4.p.rapidapi.com/locations/search?query=${location}`;
     try {
+      dispatch({type: "LOADING"});
       //get the destinationID
       let locationData = await axios.get(locationUrl, {
         headers: { "x-rapidapi-key": process.env.REACT_APP_X_RAPIDAPI_KEY,
@@ -128,7 +129,7 @@ const SearchCard = () => {
           </Col>
           <Col md className="align-items-end">
             <Button type="submit" variant="info" style={{ width: "100%" }}>
-              Search
+              {loading ? 'Loading…' : 'Search'}
             </Button>
           </Col>
         </Row>
