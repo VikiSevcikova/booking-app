@@ -8,10 +8,12 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {Container} from 'react-bootstrap';
 import NavBar from "./components/NavBar";
 import {PlacesProvider} from './context/PlacesContext';
+import {UserProvider} from './context/UserContext';
 import HomePage from './components/HomePage';
 
 function App() {
   return (
+    <UserProvider>
     <PlacesProvider>
       <Router>
         <Container>
@@ -27,6 +29,7 @@ function App() {
         </Container>
       </Router>
     </PlacesProvider>
+    </UserProvider>
   );
 }
 
