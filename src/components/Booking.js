@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import { PlacesContext } from "./../context/PlacesContext";
 import "react-datepicker/dist/react-datepicker.css";
 
-const SearchCard = () => {
+const Booking = () => {
   const placesContext = useContext(PlacesContext);
   const { state, dispatch } = placesContext;
   const { checkIn, checkOut, adults, children } = state;
@@ -61,17 +61,11 @@ const SearchCard = () => {
 
   return (
     <>
+    
       <Form onSubmit={fetchData}>
-        <Row className="glass px-3 py-3 mx-5 my-5 g-2 align-items-end">
-          <Col md>
-            <Form.Label>Location</Form.Label>
-            <Form.Control
-              type="text"
-              name="location"
-              placeholder="Anywhere"
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </Col>
+        <div className="bookingCard px-3 py-3 mx-5 my-5 g-2 align-items-end">
+          <p>$ /night</p>
+          <Row>
           <Col md>
             <Form.Label>Check in</Form.Label>
             <DatePicker
@@ -102,6 +96,8 @@ const SearchCard = () => {
               }
             />
           </Col>
+            </Row>
+            <Row>
           <Col md>
             <Form.Label>Adults</Form.Label>
             <Form.Control
@@ -126,15 +122,18 @@ const SearchCard = () => {
               }
             />
           </Col>
+          </Row>
+          <Row>
           <Col md className="align-items-end">
             <Button type="submit" variant="info" style={{ width: "100%" }}>
-              Search
+              Reerve
             </Button>
           </Col>
-        </Row>
+          </Row>
+        </div>
       </Form>
     </>
   );
 };
 
-export default SearchCard;
+export default Booking;

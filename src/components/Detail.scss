@@ -19,7 +19,19 @@
       width: 100%;
     }
   }
+
+  .detailSection {
+    margin-top: 30px;
+  }
   
+  h3 {
+    margin-top: 50px;
+  }
+
+  .bookingCard {
+    backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+  border-radius: 5px;
+  }
   
 }
 
