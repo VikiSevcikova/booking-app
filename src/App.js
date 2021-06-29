@@ -2,6 +2,7 @@
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import Detail from "./components/Detail";
 
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import {Container} from 'react-bootstrap';
@@ -18,6 +19,9 @@ function App() {
         <Container>
           <NavBar/>
           <Switch>
+            <Route path="/Detail">
+            <Detail/>
+            </Route>
             <Route path="/">
               <HomePage/>
             </Route>

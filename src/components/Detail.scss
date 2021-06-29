@@ -1,0 +1,38 @@
+.detail {
+  /* background-color: blue; */
+  // margin: 3rem 10% 0 10%;
+
+  h2 {
+    text-align: left;
+  }
+
+  .imgContainer {
+    display: flex;
+    justify-content: space-around;
+    border-radius: 15px;
+    width: 100%;
+    height: 350px;
+    overflow: hidden;
+
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .detailSection {
+    margin-top: 30px;
+  }
+  
+  h3 {
+    margin-top: 50px;
+  }
+
+  .bookingCard {
+    backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+  border-radius: 5px;
+  }
+  
+}
+
+
