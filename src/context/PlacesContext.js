@@ -6,6 +6,7 @@ const today = new Date();
 const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
 
 const initialState = {
+  loading: false,
   places: null,
   checkIn: today,
   checkOut: tomorrow,
@@ -16,10 +17,16 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "LOADING":
+      return {
+        ...state,
+        loading: true
+      };
     case "CHANGE_PLACES":
       return {
         ...state,
         places: action.payload,
+        loading: false
       };
     case "CHANGE_CHECKIN":
       return {

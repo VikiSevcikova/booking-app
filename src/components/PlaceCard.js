@@ -1,18 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { Card, Row, Col, Image } from "react-bootstrap";
 import { BsFillStarFill } from "react-icons/bs";
 
 const PlaceCard = ({ place }) => {
   console.log(place);
   return (
-    // <a>
+    <Link to={`/${place.id}`}>
       <Card className="border-top-0 border-left-0 border-right-0">
         <Card.Body>
           <Row>
             <Col md={4}>
               <Image
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={place.thumbnailUrl}
+                src={place.thumbnailUrl ? place.thumbnailUrl : place.optimizedThumbUrls.srpDesktop}
                 alt={place.name}
                 rounded
               />
@@ -41,8 +42,12 @@ const PlaceCard = ({ place }) => {
           </Row>
         </Card.Body>
       </Card>
-    // </a>
+    </Link>
   );
 };
 
 export default PlaceCard;
+//optimizedThumbUrls:
+// srpDesktop: "https://thumbnails.trvl-media.com/6i7j8wbSK6GYPwc3_dut8mS_dEc=/250x140/smart/filters:quality(60)/images.trvl-media.com/hotels/8000000/7620000/7613200/7613116/44060058_z.jpg"
+// __proto__: Object
+// pimmsAttributes: "priceRangeAU"
