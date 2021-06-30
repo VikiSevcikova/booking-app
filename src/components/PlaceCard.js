@@ -4,16 +4,19 @@ import { Card, Row, Col, Image } from "react-bootstrap";
 import { BsFillStarFill } from "react-icons/bs";
 
 const PlaceCard = ({ place }) => {
-  console.log(place);
   return (
-    <Link to={`/${place.id}`}>
+    <Link to={`/detail/${place.id}`}>
       <Card className="border-top-0 border-left-0 border-right-0">
         <Card.Body>
           <Row>
             <Col md={4}>
               <Image
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                src={place.thumbnailUrl ? place.thumbnailUrl : place.optimizedThumbUrls.srpDesktop}
+                src={
+                  place.thumbnailUrl
+                    ? place.thumbnailUrl
+                    : place.optimizedThumbUrls.srpDesktop
+                }
                 alt={place.name}
                 rounded
               />
@@ -28,9 +31,15 @@ const PlaceCard = ({ place }) => {
               </Card.Text>
               <Row className="align-items-end">
                 <Col className="justify-content-end">
-                  <BsFillStarFill />
-                  <strong> {place.guestReviews.rating} </strong> (
-                  {place.guestReviews.total})
+                  {place.guestReviews ? (
+                    <>
+                      <BsFillStarFill />
+                      <strong> {place.guestReviews.rating} </strong> (
+                      {place.guestReviews.total} reviews)
+                    </>
+                  ) : (
+                    ""
+                  )}
                 </Col>
                 <Col className="float-right text-right">
                   <strong>{place.ratePlan.price.current}</strong>

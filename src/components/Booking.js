@@ -1,78 +1,91 @@
 import axios from "axios";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Button, Form, Row, Col } from "react-bootstrap";
 import DatePicker from "react-datepicker";
 import { PlacesContext } from "./../context/PlacesContext";
 import "react-datepicker/dist/react-datepicker.css";
+import { v4 as uuidv4 } from 'uuid';
+import { UserContext } from "../context/UserContext";
+import { loadStripe } from "@stripe/stripe-js";
 
-const SearchCard = () => {
+const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY);
+
+const Booking = ({place}) => {
   const placesContext = useContext(PlacesContext);
+  const userContext = useContext(UserContext);
   const { placesState, placesDispatch } = placesContext;
-  const { loading, checkIn, checkOut, adults, children } = placesState;
+  const { userState, userDispatch } = userContext;
+  const { checkIn, checkOut, adults, children } = placesState;
+  const { loggedInUser } = userState;
+
+  const [totalPrice, setTotalPrice] = useState(place.price);
 
   const today = new Date();
   const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
 
-  const [location, setLocation] = useState("");
-
-  const fetchData = async (e) => {
-    e.preventDefault();
-    if (!location || location === null || location === "") {
-      placesDispatch({
-        type: "CHANGE_ALERT_MESSAGE",
-        payload: {title: "Wrong Input", message:"Please add location."},
-      });
-      placesDispatch({ type: "SHOW_ALERT" });
-      return;
-    }
-    if (checkIn > checkOut) {
-      placesDispatch({
-        type: "CHANGE_ALERT_MESSAGE",
-        payload: {title: "Wrong Input", message: "Check out date has to be bigger than check in date."},
-      });
-      placesDispatch({ type: "SHOW_ALERT" });
-      return;
-    }
     let formatedCheckIn = checkIn.toISOString().slice(0, 10);
     let formatedCheckOut = checkOut.toISOString().slice(0, 10);
-    const locationUrl = `https://hotels4.p.rapidapi.com/locations/search?query=${location}`;
-    try {
-      placesDispatch({type: "LOADING"});
-      //get the destinationID
-      let locationData = await axios.get(locationUrl, {
-        headers: { "x-rapidapi-key": process.env.REACT_APP_X_RAPIDAPI_KEY,
-        "x-rapidapi-host": process.env.REACT_APP_X_RAPIDAPI_HOST
-      }});
-      let destinationId = locationData.data.suggestions[0].entities[0].destinationId;
-      console.log(destinationId);
 
-      //get the places/hotels
-      const placesUrl = `https://hotels4.p.rapidapi.com/properties/list?adults1=${adults}&pageNumber=1&destinationId=${destinationId}&pageSize=25&checkOut=${formatedCheckOut}&checkIn=${formatedCheckIn}&sortOrder=PRICE&locale=en_US&currency=CAD`
-      let data = await axios.get(placesUrl, {
-        headers: { "x-rapidapi-key": process.env.REACT_APP_X_RAPIDAPI_KEY,
-        "x-rapidapi-host": process.env.REACT_APP_X_RAPIDAPI_HOST
-      }});
-         let places = data.data.data.body;
-      console.log(places);
-      placesDispatch({type: 'CHANGE_PLACES', payload: places});
-    } catch (error) {
-      console.error(error);
+    const reserve = async (e) => {
+      e.preventDefault();
+
+      if(!loggedInUser){
+        placesDispatch({
+          type: "CHANGE_ALERT_MESSAGE",
+          payload: {
+            title: "Cannot reserve hotel",
+            message: "Please log in."
+          },
+        });
+        placesDispatch({ type: "SHOW_ALERT" });
+        return;
+      }
+
+      const booking = {
+        id: uuidv4(),
+        hotelName: place.name,
+        checkIn: formatedCheckIn,
+        checkOut: formatedCheckOut,
+        adults: adults,
+        children: children,
+        total: totalPrice
+      }
+      console.log(booking);
+
+      const stripe = await stripePromise;
+      const response = await axios.post(
+        "http://localhost:4000/payment",
+        {
+          booking: booking,
+          customer: loggedInUser.email
+        }
+      );
+  
+      const session = response.data;
+  
+      // When the customer clicks on the button, redirect them to Checkout.
+      const result = await stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+      if (result.error) {
+        console.error("Error",result.error.message);
+      }
     }
-  };
 
+    useEffect(()=> {
+      let one_day = 1000 * 60 * 60 * 24;
+      let numberOfNights = Math.round(Math.round(checkOut.getTime() - checkIn.getTime()) / (one_day));
+      console.log(place.price);
+      let price = place.price * (parseInt(adults) + parseInt(children)) * numberOfNights;
+      setTotalPrice(price);
+    },[placesState])
+  
   return (
     <>
-      <Form onSubmit={fetchData}>
-        <Row className="glass px-3 py-3 mx-5 my-5 g-2 align-items-end">
-          <Col md>
-            <Form.Label>Location</Form.Label>
-            <Form.Control
-              type="text"
-              name="location"
-              placeholder="Anywhere"
-              onChange={(e) => setLocation(e.target.value)}
-            />
-          </Col>
+      <Form onSubmit={reserve} className="sticky-top py-2">
+        <div className="bookingCard px-3 py-3 my-5 g-2 align-items-end">
+          <p>${totalPrice} CAD/night</p>
+          <Row>
           <Col md>
             <Form.Label>Check in</Form.Label>
             <DatePicker
@@ -103,6 +116,8 @@ const SearchCard = () => {
               }
             />
           </Col>
+            </Row>
+            <Row>
           <Col md>
             <Form.Label>Adults</Form.Label>
             <Form.Control
@@ -127,15 +142,18 @@ const SearchCard = () => {
               }
             />
           </Col>
-          <Col md className="align-items-end">
+          </Row>
+          <Row>
+          <Col md className="align-items-end my-2">
             <Button type="submit" variant="info" style={{ width: "100%" }}>
-              {loading ? 'Loading…' : 'Search'}
+              Reserve
             </Button>
           </Col>
-        </Row>
+          </Row>
+        </div>
       </Form>
     </>
   );
 };
 
-export default SearchCard;
+export default Booking;
