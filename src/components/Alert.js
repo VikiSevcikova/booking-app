@@ -6,7 +6,7 @@ const Alert = () => {
   const { placesState, placesDispatch } = useContext(PlacesContext);
   const { alert } = placesState;
   return (
-    <div className="alert position-fixed p-3">
+    <div className="alert position-fixed p-5">
       <Toast
         onClose={() => placesDispatch({ type: "SHOW_ALERT" })}
         show={alert.show}
