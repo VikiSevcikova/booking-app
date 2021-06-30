@@ -7,8 +7,8 @@ import "react-datepicker/dist/react-datepicker.css";
 
 const SearchCard = () => {
   const placesContext = useContext(PlacesContext);
-  const { state, dispatch } = placesContext;
-  const { loading, checkIn, checkOut, adults, children } = state;
+  const { placesState, placesDispatch } = placesContext;
+  const { loading, checkIn, checkOut, adults, children } = placesState;
 
   const today = new Date();
   const tomorrow = new Date(new Date().setDate(today.getDate() + 1));
@@ -18,26 +18,26 @@ const SearchCard = () => {
   const fetchData = async (e) => {
     e.preventDefault();
     if (!location || location === null || location === "") {
-      dispatch({ type: "SHOW_ALERT" });
-      dispatch({
+      placesDispatch({
         type: "CHANGE_ALERT_MESSAGE",
-        payload: "Please add location.",
+        payload: {title: "Wrong Input", message:"Please add location."},
       });
+      placesDispatch({ type: "SHOW_ALERT" });
       return;
     }
     if (checkIn > checkOut) {
-      dispatch({ type: "SHOW_ALERT" });
-      dispatch({
+      placesDispatch({
         type: "CHANGE_ALERT_MESSAGE",
-        payload: "Check out date has to be bigger than check in date.",
+        payload: {title: "Wrong Input", message: "Check out date has to be bigger than check in date."},
       });
+      placesDispatch({ type: "SHOW_ALERT" });
       return;
     }
     let formatedCheckIn = checkIn.toISOString().slice(0, 10);
     let formatedCheckOut = checkOut.toISOString().slice(0, 10);
     const locationUrl = `https://hotels4.p.rapidapi.com/locations/search?query=${location}`;
     try {
-      dispatch({type: "LOADING"});
+      placesDispatch({type: "LOADING"});
       //get the destinationID
       let locationData = await axios.get(locationUrl, {
         headers: { "x-rapidapi-key": process.env.REACT_APP_X_RAPIDAPI_KEY,
@@ -54,7 +54,7 @@ const SearchCard = () => {
       }});
          let places = data.data.data.body;
       console.log(places);
-      dispatch({type: 'CHANGE_PLACES', payload: places});
+      placesDispatch({type: 'CHANGE_PLACES', payload: places});
     } catch (error) {
       console.error(error);
     }
@@ -79,7 +79,7 @@ const SearchCard = () => {
               name="checkIn"
               selected={checkIn}
               onChange={(date) =>
-                dispatch({ type: "CHANGE_CHECKIN", payload: date })
+                placesDispatch({ type: "CHANGE_CHECKIN", payload: date })
               }
               className="form-control"
               minDate={today}
@@ -94,7 +94,7 @@ const SearchCard = () => {
               name="checkOut"
               selected={checkOut}
               onChange={(date) =>
-                dispatch({ type: "CHANGE_CHECKOUT", payload: date })
+                placesDispatch({ type: "CHANGE_CHECKOUT", payload: date })
               }
               className="form-control"
               minDate={tomorrow}
@@ -111,7 +111,7 @@ const SearchCard = () => {
               maxLength="10"
               value={adults}
               onChange={(e) =>
-                dispatch({ type: "CHANGE_ADULTS", payload: e.target.value })
+                placesDispatch({ type: "CHANGE_ADULTS", payload: e.target.value })
               }
             />
           </Col>{" "}
@@ -123,7 +123,7 @@ const SearchCard = () => {
               maxLength="10"
               value={children}
               onChange={(e) =>
-                dispatch({ type: "CHANGE_CHILDREN", payload: e.target.value })
+                placesDispatch({ type: "CHANGE_CHILDREN", payload: e.target.value })
               }
             />
           </Col>

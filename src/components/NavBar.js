@@ -7,8 +7,8 @@ import { UserContext } from "./../context/UserContext";
 
 const NavBar = () => {
   const userContext = useContext(UserContext);
-  const { state, dispatch } = userContext;
-  const { users, loggedInUser } = state;
+  const { userState, userDispatch } = userContext;
+  const { users, loggedInUser } = userState;
 
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogIn, setShowLogIn] = useState(false);
@@ -30,7 +30,7 @@ const NavBar = () => {
   };
   const handleShowSignUp = () => setShowSignUp(true);
   const handleShowLogIn = () => setShowLogIn(true);
-  const handleShowLogOut = () => dispatch({ type: "LOG_OUT" });
+  const handleShowLogOut = () => userDispatch({ type: "LOG_OUT" });
 
   const logIn = (e) => {
     e.preventDefault();
@@ -38,7 +38,7 @@ const NavBar = () => {
       users &&
       users.some((u) => u.email === emailInput && u.password === passwordInput)
     ) {
-      dispatch({
+      userDispatch({
         type: "LOG_IN",
         payload: { email: emailInput, password: passwordInput },
       });
@@ -54,23 +54,23 @@ const NavBar = () => {
       alert("Email already exists.");
       return;
     }
-    dispatch({
+    userDispatch({
       type: "SIGN_UP",
       payload: {
         name: nameInput,
         email: emailInput,
         password: passwordInput,
-        booking: [],
+        bookings: null,
       },
     });
     handleCloseSignUp();
   };
-  console.log(state);
+
   return (
     <>
       <Navbar collapseOnSelect expand="lg" variant="light">
-        <Navbar.Brand href="#home">
-          <BsHouseFill className="mx-1" />
+        <Navbar.Brand href="/" className="d-flex align-items-center">
+          <h2><BsHouseFill className="mx-1" /></h2>
           BOOKING
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />

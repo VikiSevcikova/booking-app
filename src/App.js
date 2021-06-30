@@ -10,6 +10,7 @@ import NavBar from "./components/NavBar";
 import {PlacesProvider} from './context/PlacesContext';
 import {UserProvider} from './context/UserContext';
 import HomePage from './components/HomePage';
+import Alert from "./components/Alert";
 
 function App() {
   return (
@@ -18,11 +19,12 @@ function App() {
       <Router>
         <Container>
           <NavBar/>
+          <Alert />
           <Switch>
-            <Route path="/Detail">
+            <Route exact path="/detail/:id">
             <Detail/>
             </Route>
-            <Route path="/">
+            <Route exact path="/">
               <HomePage/>
             </Route>
           </Switch>
