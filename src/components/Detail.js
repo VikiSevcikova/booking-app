@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Photos from "./Photos"
 import "./Detail.scss";
 import axios from "axios";
 import { BsFillStarFill } from "react-icons/bs";
@@ -52,20 +53,7 @@ function Detail() {
                 <strong> {details.guestReviews.brands.rating} </strong> (
                 {details.guestReviews.brands.total} reviews)
               </p>
-              <div className="imgContainer">
-                <div className="img">
-                  <img
-                    src="https://a0.muscache.com/im/pictures/dc09ee21-27e9-4dcd-9b59-7ba7ade0563f.jpg?im_w=1200"
-                    alt=""
-                  />
-                </div>
-                <div className="img">
-                  <img
-                    src="https://a0.muscache.com/im/pictures/044f322d-8806-4f78-bdd8-4719f5a78168.jpg?im_w=720"
-                    alt=""
-                  />
-                </div>
-              </div>
+              <Photos/>
               <Row>
                 <Col md={8}>
                   {details.overview.overviewSections.map((item, i) => (

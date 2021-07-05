@@ -1,23 +1,28 @@
-.detail {
-  /* background-color: blue; */
-  // margin: 3rem 10% 0 10%;
-
-  h2 {
-    text-align: left;
-  }
-
-  .imgContainer {
+.container {
+  .pohotos {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     border-radius: 15px;
     width: 100%;
     height: 350px;
-    overflow: hidden;
-
-
-    img {
-      width: 100%;
+    overflow: scroll;
+    
+    div {
+      margin: 0 2px 0 ;
     }
+  
+    img {
+      width: auto;
+      height: 350px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  h2 {
+    text-align: left;
   }
 
   .detailSection {
@@ -34,5 +39,6 @@
   }
   
 }
+
 
 

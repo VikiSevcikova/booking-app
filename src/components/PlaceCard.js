@@ -15,7 +15,7 @@ const PlaceCard = ({ place }) => {
                 src={
                   place.thumbnailUrl
                     ? place.thumbnailUrl
-                    : place.optimizedThumbUrls.srpDesktop
+                    : place.optimizedThumbUrls ? place.optimizedThumbUrls.srpDesktop : ''
                 }
                 alt={place.name}
                 rounded
