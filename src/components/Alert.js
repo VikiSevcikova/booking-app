@@ -3,19 +3,19 @@ import { Toast } from "react-bootstrap";
 import { PlacesContext } from "../context/PlacesContext";
 
 const Alert = () => {
-  const { state, dispatch } = useContext(PlacesContext);
-  const { alert } = state;
+  const { placesState, placesDispatch } = useContext(PlacesContext);
+  const { alert } = placesState;
   return (
-    <div className="alert position-absolute p-3">
+    <div className="alert position-fixed p-5">
       <Toast
-        onClose={() => dispatch({ type: "SHOW_ALERT" })}
+        onClose={() => placesDispatch({ type: "SHOW_ALERT" })}
         show={alert.show}
         delay={3000}
         autohide
-        className="bg-warning"
+        className={`bg-${alert.variant}`}
       >
         <Toast.Header>
-          <strong className="mr-auto">Wrong input</strong>
+          <strong className="mr-auto">{alert.title}</strong>
         </Toast.Header>
         <Toast.Body>{alert.message}</Toast.Body>
       </Toast>

@@ -5,10 +5,10 @@ import PlaceCard from "./PlaceCard";
 
 const Places = () => {
   const placesContext = useContext(PlacesContext);
-  const { state } = placesContext;
-  const { places, checkIn, checkOut, adults, children } = state;
-console.log(places);
-  var options = { month: 'short', day: 'numeric' };
+  const { placesState } = placesContext;
+  const { places, checkIn, checkOut, adults, children } = placesState;
+
+  let options = { month: 'short', day: 'numeric' };
   let formatedCheckIn = new Intl.DateTimeFormat('en-US', options).format(checkIn);
   let formatedCheckOut = new Intl.DateTimeFormat('en-US', options).format(checkOut);
   return (

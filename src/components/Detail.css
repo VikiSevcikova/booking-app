@@ -1,21 +1,22 @@
-.container {
-  /* background-color: blue; */
-}
-
 .container .pohotos {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
   border-radius: 15px;
   width: 100%;
   height: 350px;
-  overflow: hidden;
+  overflow: scroll;
+}
+
+.container .pohotos div {
+  margin: 0 2px 0;
 }
 
 .container .pohotos img {
-  width: 100%;
+  width: auto;
   height: 350px;
 }
 

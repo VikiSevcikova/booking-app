@@ -12,62 +12,62 @@ const initialState = {
   checkOut: tomorrow,
   adults: 1,
   children: 0,
-  alert: { show: false, message: "" },
+  alert: { show: false,title: "", message: "", variant: "warning" },
 };
 
-const reducer = (state, action) => {
+const reducer = (placesState, action) => {
   switch (action.type) {
     case "LOADING":
       return {
-        ...state,
+        ...placesState,
         loading: true
       };
     case "CHANGE_PLACES":
       return {
-        ...state,
+        ...placesState,
         places: action.payload,
         loading: false
       };
     case "CHANGE_CHECKIN":
       return {
-        ...state,
+        ...placesState,
         checkIn: action.payload,
       };
     case "CHANGE_CHECKOUT":
       return {
-        ...state,
+        ...placesState,
         checkOut: action.payload,
       };
     case "CHANGE_ADULTS":
       return {
-        ...state,
+        ...placesState,
         adults: action.payload,
       };
     case "CHANGE_CHILDREN":
       return {
-        ...state,
+        ...placesState,
         children: action.payload,
       };
     case "CHANGE_ALERT_MESSAGE":
       return {
-        ...state,
-        alert: { ...state.alert, message: action.payload },
+        ...placesState,
+        alert: { ...placesState.alert, message: action.payload.message, title: action.payload.title, variant: action.payload.variant ? action.payload.variant : "warning"},
       };
     case "SHOW_ALERT":
       return {
-        ...state,
-        alert: { ...state.alert, show: !state.alert.show },
+        ...placesState,
+        alert: { ...placesState.alert, show: !placesState.alert.show },
       };
     default:
-      return state;
+      return placesState;
   }
 };
 
 export const PlacesProvider = (props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [placesState, placesDispatch] = useReducer(reducer, initialState);
 
   return (
-    <PlacesContext.Provider value={{ state, dispatch }}>
+    <PlacesContext.Provider value={{ placesState, placesDispatch }}>
       {props.children}
     </PlacesContext.Provider>
   );
