@@ -19,7 +19,7 @@ function App() {
         <Container>
           <NavBar/>
           <Switch>
-            <Route path="/Detail">
+            <Route path="/:id">
             <Detail/>
             </Route>
             <Route path="/">

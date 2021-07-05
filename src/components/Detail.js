@@ -1,20 +1,22 @@
 import React, {useEffect,useState} from "react"
+import { useParams } from "react-router-dom";
 import './Detail.scss';
 import axios from "axios";
 import { BsFillStarFill } from "react-icons/bs";
 import Overview from "./Overview"
 import Booking from "./Booking"
+import Photos from "./Photos"
 import {Container,Row,Col} from 'react-bootstrap'
 
 function Detail(){
 
 // const [hotelId, setHotelId] = useState("")
 const [details, setDetails] = useState()
-
-
+const { id } = useParams();
+//424023
 // Fetch for the details data
 const fetchData = async () => {
-  const detailUrl = `https://hotels4.p.rapidapi.com/properties/get-details?id=424023&currency=CAD&locale=en_US`;
+  const detailUrl = `https://hotels4.p.rapidapi.com/properties/get-details?id=${id}&currency=CAD&locale=en_US`;
   try {
       let data = await axios.get(detailUrl, {
         headers: { "x-rapidapi-key": process.env.REACT_APP_X_RAPIDAPI_KEY,
@@ -32,19 +34,14 @@ useEffect(() => {fetchData()},[])
 
 
   return (
-    <div className="detail">
+    <Container>
       {details && <><h2>{details.propertyDescription.name}</h2>
        <p><BsFillStarFill />
                   <strong> {details.guestReviews.brands.rating} </strong> (
                   {details.guestReviews.brands.total})</p>
-       <div className="imgContainer">
-         <div className="img">
-         <img  src="https://a0.muscache.com/im/pictures/dc09ee21-27e9-4dcd-9b59-7ba7ade0563f.jpg?im_w=1200" alt=""/>
-         </div>
-         <div className="img">
-         <img  src="https://a0.muscache.com/im/pictures/044f322d-8806-4f78-bdd8-4719f5a78168.jpg?im_w=720" alt=""/>
-         </div>
-       </div>
+       {/* <div className="imgContainer"> */}
+         <Photos/>
+       {/* </div> */}
        <Row>
          <Col>
          {details.overview.overviewSections.map((item,i) => <Overview key={i} overviewSection = {item}/> )}
@@ -53,8 +50,7 @@ useEffect(() => {fetchData()},[])
          <Booking />
          </Col>
         </Row></>}
-
-    </div>
+    </Container>
   )
 }
 

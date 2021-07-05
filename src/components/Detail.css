@@ -1,0 +1,43 @@
+.container {
+  /* background-color: blue; */
+}
+
+.container .pohotos {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  border-radius: 15px;
+  width: 100%;
+  height: 350px;
+  overflow: hidden;
+}
+
+.container .pohotos img {
+  width: 100%;
+  height: 350px;
+}
+
+.container .pohotos img:hover {
+  opacity: 0.8;
+}
+
+.container h2 {
+  text-align: left;
+}
+
+.container .detailSection {
+  margin-top: 30px;
+}
+
+.container h3 {
+  margin-top: 50px;
+}
+
+.container .bookingCard {
+  -webkit-backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+          backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+  border-radius: 5px;
+}
+/*# sourceMappingURL=Detail.css.map */
