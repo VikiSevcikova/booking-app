@@ -1,0 +1,44 @@
+.container {
+  .pohotos {
+    display: flex;
+    justify-content: space-between;
+    border-radius: 15px;
+    width: 100%;
+    height: 350px;
+    overflow: scroll;
+    
+    div {
+      margin: 0 2px 0 ;
+    }
+  
+    img {
+      width: auto;
+      height: 350px;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  h2 {
+    text-align: left;
+  }
+
+  .detailSection {
+    margin-top: 30px;
+  }
+  
+  h3 {
+    margin-top: 50px;
+  }
+
+  .bookingCard {
+    backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+  border-radius: 5px;
+  }
+  
+}
+
+
+

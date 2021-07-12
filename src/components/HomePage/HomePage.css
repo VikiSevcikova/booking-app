@@ -1,0 +1,29 @@
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.alert {
+  z-index: 1;
+  top: 0;
+  right: 0;
+}
+
+.banner {
+  background-image: url("https://source.unsplash.com/rcYE6UoIjWU/1600x900");
+  background-size: cover;
+  background-position-y: center;
+  height: 630px;
+}
+
+.title {
+  position: absolute;
+  top: 20%;
+  text-align: center;
+}
+
+.glass {
+  -webkit-backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+          backdrop-filter: blur(10px) saturate(100%) contrast(45%) brightness(130%);
+  border-radius: 5px;
+}
+/*# sourceMappingURL=HomePage.css.map */
